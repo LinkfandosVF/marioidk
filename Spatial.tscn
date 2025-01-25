@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=3 uid="uid://bbbsjfejymlxe"]
+
+[ext_resource type="Script" path="res://kinematic_body-player.gd" id="1_i6hyh"]
+[ext_resource type="Texture2D" uid="uid://c8270yl305qqm" path="res://assets/sprites/debug/debug_idle.png" id="2_joihy"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rd3yj"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(6, 2, 4)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fy66h"]
+radius = 0.110716
+height = 0.330222
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1eto"]
+atlas = ExtResource("2_joihy")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hr3o1"]
+atlas = ExtResource("2_joihy")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e7o1u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1eto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hr3o1")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Spatial" type="Node3D"]
+
+[node name="StaticBody" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_rd3yj")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="StaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.20105, 0.5, -0.125488)
+shape = SubResource("1")
+
+[node name="CSGBox" type="CSGBox3D" parent="StaticBody"]
+transform = Transform3D(5.23791, 0, 0, 0, 1, 0, 0, 0, 3.1, 0, 0.999145, 0)
+use_collision = true
+
+[node name="KinematicBody" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6784, 0)
+script = ExtResource("1_i6hyh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KinematicBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0245497, 0)
+shape = SubResource("CapsuleShape3D_fy66h")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="KinematicBody"]
+sprite_frames = SubResource("SpriteFrames_e7o1u")
+animation = &"idle"
+frame = 1
+frame_progress = 0.149542
+
+[node name="Camera" type="Camera3D" parent="KinematicBody"]
+transform = Transform3D(1, 0, 0, 0, 0.947696, 0.319174, 0, -0.319174, 0.947696, -5.96046e-08, 0.809583, 1.67977)
+doppler_tracking = 2
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.0533294, 0.998577, 0, -0.998577, -0.0533294, 0, 7.53518, 0)
